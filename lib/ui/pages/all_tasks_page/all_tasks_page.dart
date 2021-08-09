@@ -61,11 +61,17 @@ class AllTasksPage extends StatelessWidget {
                         }).toList(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.red,
+                    InkWell(
+                      onTap: (){
+                        RootService.appBloc.tasksBloc.add(TasksRemoved(state.list[index]));
+                        RootService.appBloc.tasksBloc.add(TasksAllLoaded());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                       ),
                     )
                   ],

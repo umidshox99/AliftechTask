@@ -106,16 +106,6 @@ class _$TaskModelDao extends TaskModelDao {
                   'name': item.name,
                   'dueDate': item.dueDate,
                   'status': item.status
-                }),
-        _taskModelDeletionAdapter = DeletionAdapter(
-            database,
-            'TaskModel',
-            ['id'],
-            (TaskModel item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'dueDate': item.dueDate,
-                  'status': item.status
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -126,7 +116,14 @@ class _$TaskModelDao extends TaskModelDao {
 
   final InsertionAdapter<TaskModel> _taskModelInsertionAdapter;
 
-  final DeletionAdapter<TaskModel> _taskModelDeletionAdapter;
+  @override
+  Future<TaskModel?> deleteTaskModel(
+      String name, int dueDate, int status) async {
+    return _queryAdapter.query(
+        'DELETE FROM TaskModel WHERE name = ?1 and dueDate = ?2 and status = ?3',
+        mapper: (Map<String, Object?> row) => TaskModel(row['name'] as String, row['status'] as int, row['dueDate'] as int),
+        arguments: [name, dueDate, status]);
+  }
 
   @override
   Future<void> clearTaskTable() async {
@@ -151,10 +148,5 @@ class _$TaskModelDao extends TaskModelDao {
   Future<int> insertTaskModel(TaskModel taskModel) {
     return _taskModelInsertionAdapter.insertAndReturnId(
         taskModel, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<int> deleteTaskModel(TaskModel taskModel) {
-    return _taskModelDeletionAdapter.deleteAndReturnChangedRows(taskModel);
   }
 }

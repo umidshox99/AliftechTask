@@ -47,7 +47,7 @@ class InProgressTasksPage extends StatelessWidget {
                         value: status[state.list[index].status],
                         onChanged: (newValue) {
                           int k = status.indexOf(newValue.toString());
-                          RootService.appBloc.tasksBloc.add(TasksUpdated(state.list[index]..status=k));
+                          RootService.appBloc.tasksBloc.add(TasksUpdated(state.list[index]..status = k));
                           RootService.appBloc.tasksBloc.add(TasksInProgressLoaded());
                         },
                         items: status.map((s) {
@@ -58,11 +58,17 @@ class InProgressTasksPage extends StatelessWidget {
                         }).toList(),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.red,
+                    InkWell(
+                      onTap: () {
+                        RootService.appBloc.tasksBloc.add(TasksRemoved(state.list[index]));
+                        RootService.appBloc.tasksBloc.add(TasksInProgressLoaded());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                       ),
                     )
                   ],

@@ -37,6 +37,8 @@ class TasksUpdated extends TasksEvent {
 }
 
 class TasksRemoved extends TasksEvent {
+  TasksRemoved(this.taskModel);
+  final TaskModel taskModel;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [TasksRemoved];
 }

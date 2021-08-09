@@ -27,11 +27,14 @@ class DBService {
     return await _appDatabase!.tasksDao.insertTaskModel(userModel);
   }
 
-  Future<void> update(TaskModel userModel) async {
-    return await _appDatabase!.tasksDao.updateTaskModel(userModel.name,userModel.dueDate,userModel.status);
+  Future<void> update(TaskModel taskModel) async {
+    return await _appDatabase!.tasksDao.updateTaskModel(taskModel.name,taskModel.dueDate,taskModel.status);
   }
 
   Future<void> clearTaskModel() async {
     return await _appDatabase!.tasksDao.clearTaskTable();
+  }
+  Future<TaskModel?> remove(TaskModel taskModel) async {
+    return await _appDatabase!.tasksDao.deleteTaskModel(taskModel.name,taskModel.dueDate,taskModel.status);
   }
 }

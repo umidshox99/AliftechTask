@@ -67,15 +67,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   Stream<TasksState> _mapTasksUpdateToState(TasksUpdated event, TasksState state) async* {
     var db = await RootService.dbService;
-   await db.update(event.taskModel);
-
+    await db.update(event.taskModel);
     yield TasksInitial();
   }
 
   Stream<TasksState> _mapTasksRemovedToState(TasksRemoved event, TasksState state) async* {
     var db = await RootService.dbService;
-    List<TaskModel> list = await db.getTaskModel();
-    list.removeWhere((element) => element.status != 1);
-    yield TasksLoad(list);
+    await db.remove(event.taskModel);
+    yield TasksInitial();
   }
 }

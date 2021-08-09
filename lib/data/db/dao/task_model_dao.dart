@@ -8,8 +8,8 @@ abstract class TaskModelDao {
   @insert
   Future<int> insertTaskModel(TaskModel taskModel);
 
-  @delete
-  Future<int> deleteTaskModel(TaskModel taskModel);
+  @Query("DELETE FROM TaskModel WHERE name = :name and dueDate = :dueDate and status = :status")
+  Future<TaskModel?> deleteTaskModel(String name,int dueDate,int status);
 
   @Query("DELETE FROM TaskModel")
   Future<void> clearTaskTable();
